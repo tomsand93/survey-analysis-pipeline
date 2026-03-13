@@ -9,6 +9,53 @@ Processes raw free-text answers into structured, multi-label categories and prod
 
 ## Pipeline
 
+```mermaid
+flowchart LR
+    IN([📊 full_data.xlsx])
+
+    subgraph S1["Step 1 — Discover"]
+        direction TB
+        S1L["1_discover_categories_multi.py"]
+        S1D["Sample responses → LLM → candidate themes"]
+    end
+
+    subgraph S2["Step 2 — Refine"]
+        direction TB
+        S2L["2_refine_categories.py"]
+        S2D["Consolidate & deduplicate themes"]
+    end
+
+    subgraph S3["Step 3 — Categorize"]
+        direction TB
+        S3L["3_categorize_multi.py"]
+        S3D["Assign 1–3 labels per response via LLM"]
+    end
+
+    subgraph S4["Step 4 — Analyze"]
+        direction TB
+        S4L["4_analyze_multi_categories.py"]
+        S4D["Aggregate + demographic cross-tabs"]
+    end
+
+    subgraph S5["Step 5 — Polish"]
+        direction TB
+        S5L["5_analyze_excel.py"]
+        S5D["Format & clean Excel output"]
+    end
+
+    OUT([📋 MULTI_CATEGORY_ANALYSIS.xlsx])
+
+    F1(["🗂 discovered_categories_multi.json"])
+    F2(["🗂 refined_categories_multi.json"])
+    F3(["🗂 full_data_multi_category.xlsx"])
+
+    IN --> S1 --> F1 --> S2 --> F2 --> S3
+    IN --> S3
+    S3 --> F3 --> S4 --> S5 --> OUT
+```
+
+![Pipeline Overview](visualizations/Enhanced/00_Pipeline_Overview.png)
+
 Scripts live in `pipeline/` and run in order:
 
 | Step | Script | What it does |

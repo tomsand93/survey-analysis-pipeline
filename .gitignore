@@ -15,3 +15,24 @@
 # Allow pipeline/ and only Python scripts
 !pipeline/
 !pipeline/*.py
+
+# Allow .gitkeep in output directories (so empty dirs are tracked)
+!output/
+!output/.gitkeep
+!intermediate/
+!intermediate/.gitkeep
+!processed_data/
+!processed_data/.gitkeep
+!visualizations/
+!visualizations/.gitkeep
+!visualizations/Enhanced/
+!visualizations/Enhanced/*.py
+!visualizations/Enhanced/*.png
+
+# Allow tests/ and CI workflow
+!tests/
+!tests/*.py
+!.github/
+!.github/workflows/
+!.github/workflows/*.yml
+!requirements.txt
